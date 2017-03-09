@@ -1,21 +1,20 @@
-function initApp() {
-    const socket = new WebSocket('ws://localhost:3000/ws'),
-        sendButton = document.getElementById('send-button'),
-        input = document.getElementById('input'),
-        results = document.getElementById('result');
+require('file-loader?name=index.html!./index.html');
+require('file-loader?name=index.css!./styles/index.css');
 
-    socket.onopen = event => {
-        socket.send('Hello');
-    };
+import React from 'react';
+import { render } from 'react-dom';
+import { Provider } from 'react-redux';
+import App from './components/App';
+import createStore from './reducers';
 
-    socket.onmessage = event => {
-        results.innerHTML = event.data;
-    };
+const store = createStore();
 
-    sendButton.onclick = () => {
-        socket.send(input.value);
-    };
-}
-
-document.addEventListener("DOMContentLoaded", initApp);
+document.addEventListener('DOMContentLoaded', function() {
+    render(
+        <Provider store={store}>
+            <App />
+        </Provider>,
+        document.getElementById('root')
+    );
+});
 

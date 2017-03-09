@@ -1,0 +1,13 @@
+.user-list {
+    display: inline-block;
+    width: 300px;
+}
+
+.chat-window {
+    display: inline-block;
+}
+
+.messages-container {
+    overflow-y: scroll;
+    height: 500px;
+}
