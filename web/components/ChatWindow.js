@@ -2,9 +2,9 @@ import React, { PropTypes } from 'react';
 import Message from './Message';
 import ChatInput from '../containers/ChatInput';
 
-const ChatWindow = ({ submitCallback, messages }) =>
+const ChatWindow = ({ messages }) =>
     <div className="chat-window">
-        <div className="messages-container">
+        <div className="messages-container" id="message-area">
             { 
                 messages.map(message => 
                     <Message user={message.user} data={message.data} key={message.id} />

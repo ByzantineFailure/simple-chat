@@ -1,14 +1,53 @@
+body {
+    font-family: Montserrat,"Helvetica Neue",Helvetica,Arial,sans-serif;
+    overflow: hidden;
+}
+
+#root {
+    margin-top: -8px;
+    margin-left: -8px;
+}
+
+.user {
+    display: inline-block;
+}
+
 .user-list {
     display: inline-block;
-    width: 300px;
+    width: 280px;
+    height: 97vh;
+    float: left;
+    background: #d7c3c7;
+    padding: 10px;
+    margin-right: 5px;
+}
+
+.user-list > .user {
+    display: block !important;
 }
 
 .chat-window {
     display: inline-block;
+    float: left;
+    height: 100vh;
+    position: relative;
+    width: calc(100% - 310px);
+}
+.input-bar {
+    bottom: 15px;
+    position: absolute;
+    width: 100%
+}
+
+.text-input {
+    width: 90%;
+    padding: 0 0 20px 0;
 }
 
 .messages-container {
     overflow-y: scroll;
-    height: 500px;
+    height: calc(90% - 10px);
+    display: flex;
+    flex-direction: column-reverse;
 }
 

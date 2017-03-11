@@ -13,6 +13,7 @@ function store() {
     var socket, store;
 
     const reducer = (state = initialState, action) => {
+        console.log(action);
         switch (action.type) {
             case 'SEND':
                 socket.send(action);
@@ -29,10 +30,18 @@ function store() {
                     isAuthenticated: true
                 });
             case 'MESSAGE':
-                var messages = state.messages.slice(0, 19);
+                var messages = state.messages.slice(0);
+                if (messages.length > 100) {
+                    console.log('slicing messages');
+                    messages = messages.slice(-1);
+                }
                 messages.unshift(action.data);
-                var result = Object.assign({}, state, { messages });
-                console.log('MESSAGE result');
+
+                // Ideally do this somewhere else 
+                var messageArea = document.getElementById('message-area');
+                messageArea.scrollTop = messageArea.scrollHeight;
+
+                var result = Object.assign({}, state, { messages: messages });
                 console.log(result);
                 return result;
             case 'CONNECT':

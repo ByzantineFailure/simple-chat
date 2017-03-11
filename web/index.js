@@ -1,5 +1,8 @@
+// Required for build
 require('file-loader?name=index.html!./index.html');
-require('file-loader?name=index.css!./styles/index.css');
+
+import indexCss from './styles/index.css';
+import modalCss from './styles/modal.css';
 
 import { Provider } from 'react-redux';
 import App from './components/App';
