@@ -5,14 +5,7 @@ const mapStateToProps = (state) => ({
     messages: state.messages
 });
 
-const mapDispatchToProps = (dispatch) => ({
-    submitCallback: (message) => {
-        dispatch({
-            type: 'SEND',
-            data: message
-        });
-    }
-});
+const mapDispatchToProps = (dispatch) => ({});
 
 const ConnectedChatWindow = connect(
     mapStateToProps,

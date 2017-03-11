@@ -2,7 +2,7 @@ import UserList from '../components/UserList';
 import { connect } from 'react-redux';
 
 const mapStateToProps = (state) => ({
-    userList: state.users    
+    userList: state.userList
 });
 
 const mapDispatchToProps = (dispatch) => ({});

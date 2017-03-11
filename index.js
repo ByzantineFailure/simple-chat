@@ -1,23 +1,45 @@
 const koa = require('koa'),
       websockify = require('koa-websocket'),
       serveStatic = require('koa-static'),
-      uuid = require('uuid/v4'),
+      koaConvert = require('koa-convert'),
+      session = require('koa-session'),
+      _ = require('lodash'),
+      auth = require('./lib/rest/auth'),
       createHandler = require('./lib/protocol'),
-      serverState = {};
+      Store = require('./lib/store');
 
-const app = websockify(new koa());
+const SESSION_CONFIG = {
+    key: 'SESSION',
+    // Eventually change this w/ keys 'n stuff
+    signed: false,
+    httpOnly: false
+};
+
+const app = websockify(new koa()),
+      serverStore = new Store(),
+      sessionStore = session(SESSION_CONFIG, app);
+
+app.use(koaConvert(sessionStore));
+app.ws.use(sessionStore);
 
 app.ws.use(function*(next) {
-    if(this.path != '/ws') {
-        yield next;
+    if (this.path !== '/ws') {
+        return yield next;
     }
-
+    
+    if (!this.session.id) {
+        socket.send('Unauthenticated!  Request /auth first!');
+        socket.close();
+        return;
+    }
     const socket = this.websocket,
-        id = uuid(),
-        handler = createHandler(socket, serverState, app.ws.server);
-
-    yield next;
+        userData = _.pick(this.session, ['id', 'username']),
+        handler = createHandler(socket, userData, serverStore, app.ws.server);
 });
+
+// POST - /auth
+app.use(auth);
+
 
 app.use(serveStatic('dist'));
 

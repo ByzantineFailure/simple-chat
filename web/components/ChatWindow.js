@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import Message from './Message';
-import Input from './Input';
+import ChatInput from '../containers/ChatInput';
 
 const ChatWindow = ({ submitCallback, messages }) =>
     <div className="chat-window">
@@ -11,12 +11,11 @@ const ChatWindow = ({ submitCallback, messages }) =>
                 )
             }
         </div>
-        <Input submitCallback={submitCallback} />
+        <ChatInput />
     </div>
 ;
 
 ChatWindow.PropTypes = {
-    submitCallback: PropTypes.func.isRequired,
     messages: PropTypes.arrayOf(Message.PropTypes).isRequired
 }
 
