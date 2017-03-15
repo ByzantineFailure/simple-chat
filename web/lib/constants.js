@@ -9,10 +9,12 @@ const socketConfig = {
         port: 3000,
         isSecure: false,
         path: '/auth'
-    };
+    },
+    actionEventType = 'DISPATCH_ACTION';
 
-export default {
+module.exports = {
     socketConfig,
-    authConfig
+    authConfig,
+    actionEventType
 };
 

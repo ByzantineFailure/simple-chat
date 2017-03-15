@@ -9,9 +9,7 @@ const initialState = {
         messages: []
     };
 
-function store() {
-    var socket, store;
-
+function store(socket) {
     const reducer = (state = initialState, action) => {
         console.log(action);
         switch (action.type) {
@@ -25,6 +23,10 @@ function store() {
                     userId: action.data.userId
                 });
             case 'AUTH_SUCCESS':
+                if (!socket.isReady() && !socket.opening) {
+                    socket.open();
+                    socket.send({ type: 'STATE' });
+                }
                 return Object.assign({}, state, {
                     user: action.data,
                     isAuthenticated: true
@@ -57,22 +59,11 @@ function store() {
         }
     }
     
-    store = createStore(reducer);
+    const store = createStore(reducer);
     
-    // Wait for auth.  Filthy but we'll do this until we've got a better idea (CustomEvent?)
-    var authInterval;
-    function authCheck() {
-        if (store.getState().isAuthenticated) {
-            clearInterval(authInterval);
-            
-            socket = new Socket(data => store.dispatch(data), constants.socketConfig);
-            socket.open();
-    
-            // Get the server state (user list)
-            socket.send({ type: 'STATE' });
-        }
-    }
-    authInterval = setInterval(authCheck, 100);
+    window.addEventListener(constants.actionEventType, (e) => {
+        store.dispatch(e.detail);  
+    });
 
     return store;
 }

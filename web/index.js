@@ -9,8 +9,10 @@ import App from './components/App';
 import React from 'react';
 import { render } from 'react-dom';
 import createStore from './reducers';
+import Socket from './lib/socket';
 
-const store = createStore();
+const socket = new Socket(),
+    store = createStore(socket);
 
 document.addEventListener('DOMContentLoaded', function() {
     render(
