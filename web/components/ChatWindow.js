@@ -7,7 +7,7 @@ const ChatWindow = ({ messages }) =>
         <div className="messages-container" id="message-area">
             { 
                 messages.map(message => 
-                    <Message user={message.user} data={message.data} key={message.id} />
+                    <Message timestamp={message.timestamp} user={message.user} data={message.data} key={message.id} />
                 )
             }
         </div>

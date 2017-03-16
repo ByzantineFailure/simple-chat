@@ -20,7 +20,8 @@ function store(socket) {
                 return Object.assign({}, state, {
                     // Convert the map to an array
                     userList: Object.keys(action.data.userList).map(id => action.data.userList[id]),
-                    userId: action.data.userId
+                    userId: action.data.userId,
+                    messages: action.data.messages
                 });
             case 'AUTH_SUCCESS':
                 if (!socket.isReady() && !socket.opening) {

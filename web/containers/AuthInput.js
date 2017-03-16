@@ -17,7 +17,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
     submitCallback: (username) => {
         return new Promise((resolve, reject) => {
-            needle.post(url, { username: username }, function(err, resp) {
+            needle.request('post', url, { username: username }, { json: true }, function(err, resp) {
                 if (!err) {
                     console.log(resp.body);
                     dispatch({

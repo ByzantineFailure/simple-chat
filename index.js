@@ -23,7 +23,9 @@ app.use(koaConvert(sessionStore));
 app.ws.use(sessionStore);
 
 app.ws.use(function*(next) {
+    console.log('starting WS middleware');
     if (this.path !== '/ws') {
+        console.log('Not WS connection');
         return yield next;
     }
     
@@ -40,8 +42,8 @@ app.ws.use(function*(next) {
 // POST - /auth
 app.use(auth);
 
-
 app.use(serveStatic('dist'));
 
 app.listen(3000);
+console.log('Listening on 3000...');
 
