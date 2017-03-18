@@ -3,6 +3,7 @@ import Socket from '../lib/socket';
 import constants from '../lib/constants';
 
 const initialState = {
+        appLoading: true,
         isAuthenticated: false,
         user: {},
         userList: [],
@@ -23,11 +24,15 @@ function store(socket) {
                     userId: action.data.userId,
                     messages: action.data.messages
                 });
+            case 'LOAD_COMPLETE':
+                return Object.assign({}, state, { 
+                    appLoading: false 
+                });
             case 'AUTH_SUCCESS':
                 if (!socket.isReady() && !socket.opening) {
                     socket.open();
-                    socket.send({ type: 'STATE' });
                 }
+                socket.send({ type: 'STATE' });
                 return Object.assign({}, state, {
                     user: action.data,
                     isAuthenticated: true

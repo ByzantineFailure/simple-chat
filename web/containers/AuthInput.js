@@ -9,7 +9,7 @@ const protocol = constants.authConfig.isSecure ? 'https://' : 'http://',
     url = protocol + constants.authConfig.host + port + constants.authConfig.path;
 
 const mapStateToProps = (state) => ({
-    display: !state.isAuthenticated,
+    display: !state.isAuthenticated && !state.appLoading,
     className: 'auth-prompt',
     clearValueOnError: false
 });
@@ -17,7 +17,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
     submitCallback: (username) => {
         return new Promise((resolve, reject) => {
-            needle.request('post', url, { username: username }, { json: true }, function(err, resp) {
+            needle.request('post', url, { username: username }, { json: true }, (err, resp) => {
                 if (!err) {
                     console.log(resp.body);
                     dispatch({
@@ -25,8 +25,7 @@ const mapDispatchToProps = (dispatch) => ({
                         data: resp.body
                     });
                     resolve(resp);
-                }
-                else {
+                } else {
                     reject(err);
                 }
             });
